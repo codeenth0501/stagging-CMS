@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management Panel System - Al-Wildan 15 (V4.4 Super Ultimate)</title>
+    <title>Management Panel System - Al-Wildan 15 (V4.5 Super Ultimate)</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     
@@ -160,7 +160,7 @@
 
         <div class="glass-panel p-10 w-full max-w-md relative z-10 text-center">
             <div class="mx-auto w-32 h-32 mb-6 rounded-full shadow-[0_0_40px_rgba(0,229,255,0.3)] border-[3px] border-neoncyan/50 overflow-hidden bg-white p-2 flex items-center justify-center">
-                <img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-full h-full object-contain">
+                <img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-full h-full object-contain">
             </div>
             <h2 class="text-3xl font-bold gradient-text mb-1 tracking-wider uppercase font-mono">Management Panel System</h2>
             <p class="text-xs text-neoncyan dark:text-neoncyan text-blue-600 mb-8 tracking-[0.3em] uppercase font-bold">Al-Wildan Islamic School 15</p>
@@ -185,7 +185,7 @@
             <div class="flex items-center gap-4">
                 <div class="relative">
                     <div class="absolute inset-0 bg-neoncyan rounded-full blur-md opacity-20 dark:opacity-40"></div>
-                    <img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-10 h-10 object-contain bg-white rounded-full p-0.5 relative z-10 border border-gray-200 dark:border-transparent">
+                    <img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-10 h-10 object-contain bg-white rounded-full p-0.5 relative z-10 border border-gray-200 dark:border-transparent">
                 </div>
                 <div>
                     <h1 class="font-bold text-xl tracking-widest uppercase gradient-text">AL-WILDAN 15</h1>
@@ -452,10 +452,13 @@
                         
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
                             <div class="cyber-panel p-5 flex flex-col h-[320px]">
-                                <h3 class="font-bold text-neongreen dark:text-neongreen text-green-600 mb-4 uppercase text-[10px] tracking-[0.2em] border-b custom-border pb-2"><i class="fas fa-satellite mr-2"></i> Standby Radar</h3>
+                                <div class="flex justify-between items-center border-b custom-border pb-2 mb-4">
+                                    <h3 class="font-bold text-neongreen dark:text-neongreen text-green-600 uppercase text-[10px] tracking-[0.2em]"><i class="fas fa-satellite mr-2"></i> Standby Radar</h3>
+                                    <button onclick="printPDF('standbyReport')" class="text-[9px] font-bold text-white bg-green-600 dark:bg-neongreen dark:text-darkbg px-2 py-1 rounded hover:opacity-80 transition"><i class="fas fa-print"></i> PDF</button>
+                                </div>
                                 <div class="flex gap-2 mb-4 custom-bg-alt p-1.5 rounded-full border custom-border">
                                     <select id="radar-hari" class="bg-transparent text-lighttext dark:text-gray-300 text-xs px-3 outline-none w-2/5 border-r custom-border font-bold"><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select>
-                                    <select id="radar-jp" class="bg-transparent text-lighttext dark:text-gray-300 text-xs px-3 outline-none w-2/5 border-r custom-border font-bold"><option value="JP 1">JP 1</option><option value="JP 2">JP 2</option><option value="JP 3">JP 3</option><option value="JP 4">JP 4</option><option value="JP 5">JP 5</option><option value="JP 6">JP 6</option></select>
+                                    <select id="radar-jp" class="bg-transparent text-lighttext dark:text-gray-300 text-xs px-3 outline-none w-2/5 border-r custom-border font-bold"><option value="ALL">Semua JP</option><option value="JP 1">JP 1</option><option value="JP 2">JP 2</option><option value="JP 3">JP 3</option><option value="JP 4">JP 4</option><option value="JP 5">JP 5</option><option value="JP 6">JP 6</option></select>
                                     <div class="flex w-1/5 justify-around items-center">
                                         <button onclick="loadStandbyRadar()" id="btn-radar-search" class="text-neoncyan hover:text-blue-500 transition"><i class="fas fa-search text-sm"></i></button>
                                         <button onclick="clearStandbyRadar()" class="text-muted hover:text-neonpink transition"><i class="fas fa-times text-sm"></i></button>
@@ -477,7 +480,6 @@
                             </div>
                         </div>
 
-                        <!-- AUTOMATED OVERRIDE FORM -->
                         <div class="cyber-panel p-6 relative overflow-visible mb-6">
                             <div class="absolute top-0 right-0 w-32 h-32 bg-neonblue/10 rounded-full blur-3xl pointer-events-none"></div>
                             <h3 class="font-bold text-neonblue dark:text-neonblue text-blue-700 mb-6 uppercase text-[10px] tracking-[0.3em] flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-neonblue dark:bg-neonblue bg-blue-600 animate-pulse"></div> Auto-Target Execution</h3>
@@ -548,7 +550,7 @@
                                     <thead class="bg-gray-100 dark:bg-darkbg text-muted uppercase tracking-widest text-[10px]">
                                         <tr><th class="p-3 border-b border-r custom-border text-center w-16">JP</th><th class="p-3 border-b border-r custom-border">Mata Pelajaran</th><th class="p-3 border-b custom-border">Guru Pengajar</th></tr>
                                     </thead>
-                                    <tbody id="viewer-tbody" class="divide-y custom-border">
+                                    <tbody id="viewer-tbody" class="divide-y custom-border text-lighttext dark:text-gray-300">
                                         <tr><td colspan="3" class="text-center py-8 text-muted italic">Pilih Hari dan Kelas untuk melihat jadwal utuh.</td></tr>
                                     </tbody>
                                 </table>
@@ -892,20 +894,19 @@
         </div>
     </div>
 
-    <!-- HIDDEN PRINT SECTION -->
     <div id="print-section"></div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbw2g1ecQSLlR0xNRGFWIYeNqaXg68evmNZg9lu1yH4TV06u9GiOmNwfMuBQs11kbN3u/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwq-Iu2WGVwAfKxLiXmFIjICNMd-BAUomznKu99yiVWoA8z28OuFgukvaMrNVR8auxqHg/exec";
 
         let myChart1, myChart2, myChart3;
         let globalTeacherList = []; 
         let globalClassesList = [];
-        let globalAttendanceData = [];
+        let globalAttendanceData = []; 
         let globalEditedAttendance = []; 
         let rawInfalDataCache = []; 
-        let currentActiveModules = [];
-        let globalMasterJadwal = []; // Untuk cache jadwal class viewer & auto infal
+        let currentActiveModules = []; 
+        let globalMasterJadwal = []; 
 
         const formatRp = (num) => { if(!num) return 'Rp0'; return 'Rp' + Number(num).toLocaleString('id-ID'); };
 
@@ -1400,9 +1401,17 @@
             if(!kelas) { showToast('Pilih kelas terlebih dahulu', 'error'); return; }
             tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-muted italic"><i class="fas fa-spinner fa-spin"></i> Syncing Schedule...</td></tr>`;
             
-            const res = await fetchAPI('getTeacherClasses', {nama: 'ALL_CLASSES_DUMMY'}); 
-            showToast('Viewer is ready. Requires API adjustment for full class-based query in V5', 'info');
-            tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-neoncyan font-bold italic">Simulasi UI Berhasil. Fitur ini membutuhkan Endpoint API baru (getClassSchedule) di update Code.gs berikutnya.</td></tr>`;
+            const res = await fetchAPI('getClassSchedule', {hari: hari, kelas: kelas}); 
+            if(res && res.status === 'success' && res.data.length > 0) {
+                tbody.innerHTML = res.data.map(j => `
+                <tr class="hover:bg-blue-50 dark:hover:bg-neoncyan/5 border-b custom-border">
+                    <td class="p-3 text-center font-mono font-bold text-neoncyan">${j['Sesi_JP']}</td>
+                    <td class="p-3 font-bold text-lighttext dark:text-white">${j['Mata_Pelajaran']}</td>
+                    <td class="p-3 text-xs italic text-muted">${j['Guru']}</td>
+                </tr>`).join('');
+            } else {
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-500 italic">Jadwal untuk kelas ${kelas} pada hari ${hari} tidak ditemukan.</td></tr>`;
+            }
         }
 
         async function loadTeacherSubjects() {
@@ -1486,18 +1495,26 @@
 
         async function loadSupervisionRecapTable() {
             const tbody = document.getElementById('recap-supervision-tbody'); tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-muted italic"><i class="fas fa-spinner fa-spin"></i> Fetching Master Data...</td></tr>`;
-            const res = await fetchAPI('getSupervisionHistory'); // Akan di-upgrade di Backend V5 buat load ALL, sementara pakai recent 5 history
+            const res = await fetchAPI('getSupervisionHistory'); // Akan di-upgrade di Backend V5 buat load ALL
             if(res && res.status === 'success' && res.data.length > 0) { 
-                tbody.innerHTML = res.data.map(h => `
-                <tr class="hover:bg-blue-50 dark:hover:bg-neoncyan/5 transition-colors">
-                    <td class="p-3 border-r custom-border text-xs text-muted font-mono">${formatDate(h.tanggal)}</td>
-                    <td class="p-3 border-r custom-border text-xs font-bold text-lighttext dark:text-white">${h.guru}</td>
-                    <td class="p-3 border-r custom-border text-xs italic text-muted text-center">${h.materi || '-'}</td>
-                    <td class="p-3 border-r custom-border text-center font-mono font-bold text-blue-600 dark:text-neoncyan">${h.skor}</td>
-                    <td class="p-3 border-r custom-border text-center font-mono font-bold text-neongreen">${h.pct}%</td>
-                    <td class="p-3 border-r custom-border text-center text-[10px] uppercase font-bold">${h.predikat}</td>
-                    <td class="p-3 text-xs text-muted">${h.supervisor || 'Admin'}</td>
-                </tr>`).join(''); 
+                tbody.innerHTML = res.data.map(h => {
+                    // Paksa Kalkulasi % di Frontend jika nerima desimal dari Backend (Fallback)
+                    let displayPct = h.pct;
+                    if(typeof displayPct === 'number' && displayPct <= 1) displayPct = Math.round(displayPct * 100) + '%';
+                    else if(typeof displayPct === 'string' && displayPct.includes('.')) displayPct = Math.round(parseFloat(displayPct) * 100) + '%';
+                    else if(typeof displayPct === 'string' && !displayPct.includes('%')) displayPct += '%';
+
+                    return `
+                    <tr class="hover:bg-blue-50 dark:hover:bg-neoncyan/5 transition-colors">
+                        <td class="p-3 border-r custom-border text-xs text-muted font-mono">${formatDate(h.tanggal)}</td>
+                        <td class="p-3 border-r custom-border text-xs font-bold text-lighttext dark:text-white">${h.guru}</td>
+                        <td class="p-3 border-r custom-border text-xs italic text-muted text-center">${h.materi || '-'}</td>
+                        <td class="p-3 border-r custom-border text-center font-mono font-bold text-blue-600 dark:text-neoncyan">${h.skor}</td>
+                        <td class="p-3 border-r custom-border text-center font-mono font-bold text-neongreen">${displayPct}</td>
+                        <td class="p-3 border-r custom-border text-center text-[10px] uppercase font-bold">${h.predikat}</td>
+                        <td class="p-3 text-xs text-muted">${h.supervisor || 'Admin'}</td>
+                    </tr>`
+                }).join(''); 
             } 
             else { tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-muted italic">Data Supervisi Kosong.</td></tr>`; } 
         }
@@ -1682,27 +1699,98 @@
                 showToast('Mempersiapkan PDF Recap Supervisi...', 'info');
                 area.innerHTML = buildRecapSupervisionPDF();
             }
+            else if (type === 'standbyReport') {
+                showToast('Mempersiapkan Laporan Standby...', 'info');
+                await fetchAndBuildStandbyReport(area);
+            }
             
             setTimeout(() => { window.print(); }, 500);
         }                
+
+        async function fetchAndBuildStandbyReport(areaEl) {
+            const hari = document.getElementById('radar-hari').value;
+            const jp = document.getElementById('radar-jp').value;
+            
+            let reportTitle = `Laporan Guru Standby - Hari ${hari}`;
+            if(jp !== 'ALL') reportTitle += ` (${jp})`;
+
+            // Kalau ALL, kita fetch per JP dari 1-6
+            let fullHtml = '';
+            
+            if(jp === 'ALL') {
+                let allStandbyList = {};
+                for(let i=1; i<=6; i++) {
+                    let curJp = `JP ${i}`;
+                    const res = await fetchAPI('getStandbyTeachers', { hari: hari, jp: curJp });
+                    if(res && res.status === 'success') {
+                        allStandbyList[curJp] = res.data.map(g => g['Nama Guru']);
+                    }
+                }
+                
+                let tbody = '';
+                for(let i=1; i<=6; i++) {
+                    let curJp = `JP ${i}`;
+                    let gurus = allStandbyList[curJp] || [];
+                    tbody += `
+                    <tr>
+                        <td class="p-3 border border-gray-400 font-bold text-center bg-gray-100" style="color: #000 !important; width: 80px;">${curJp}</td>
+                        <td class="p-3 border border-gray-400" style="color: #000 !important;">${gurus.length > 0 ? gurus.join('<br>') : '<i>Semua Guru Mengajar</i>'}</td>
+                    </tr>`;
+                }
+
+                fullHtml = `
+                <div class="a4-page-potrait bg-white p-[15mm]">
+                    <div class="text-center mb-6 border-b-2 border-black pb-4">
+                        <h1 class="text-2xl font-black uppercase m-0" style="color: #000 !important;">AL-WILDAN 15</h1>
+                        <h2 class="text-lg font-bold uppercase m-0" style="color: #000 !important;">${reportTitle}</h2>
+                    </div>
+                    <table class="w-full border-collapse text-sm">
+                        <thead><tr class="bg-gray-200"><th class="p-2 border border-gray-400" style="color: #000 !important;">Sesi / JP</th><th class="p-2 border border-gray-400 text-left" style="color: #000 !important;">Daftar Guru Standby (Free)</th></tr></thead>
+                        <tbody>${tbody}</tbody>
+                    </table>
+                </div>`;
+            } else {
+                // Fetch cuma 1 JP
+                const res = await fetchAPI('getStandbyTeachers', { hari: hari, jp: jp });
+                let gurus = res && res.status === 'success' ? res.data.map(g => g['Nama Guru']) : [];
+                
+                fullHtml = `
+                <div class="a4-page-potrait bg-white p-[15mm]">
+                    <div class="text-center mb-6 border-b-2 border-black pb-4">
+                        <h1 class="text-2xl font-black uppercase m-0" style="color: #000 !important;">AL-WILDAN 15</h1>
+                        <h2 class="text-lg font-bold uppercase m-0" style="color: #000 !important;">${reportTitle}</h2>
+                    </div>
+                    <div class="p-4 border border-gray-400 min-h-[500px]">
+                        <p class="font-bold mb-4" style="color: #000 !important;">Daftar Guru Standby:</p>
+                        <ol class="list-decimal pl-5 space-y-2" style="color: #000 !important;">
+                            ${gurus.length > 0 ? gurus.map(g => `<li>${g}</li>`).join('') : '<li><i>Semua Guru Sedang Mengajar</i></li>'}
+                        </ol>
+                    </div>
+                </div>`;
+            }
+            areaEl.innerHTML = fullHtml;
+        }
 
         function buildRecapSupervisionPDF() {
             const tbodyData = document.getElementById('recap-supervision-tbody').innerHTML;
             let printDate = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
             
+            // PENTING: Regex ini menambahkan inline style color: #000 !important ke semua <td> agar tidak hilang pas diprint
+            const printReadyTbody = tbodyData.replace(/<td/g, '<td style="color: #000 !important; border: 1px solid #ccc; padding: 8px;"');
+
             return `
-            <div class="a4-page-potrait bg-white p-[15mm]">
+            <div class="a4-page bg-white p-[15mm]">
                 <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">
-                    <div class="flex items-center gap-4"><img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-16 h-16 object-contain"><div><h1 class="text-xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1><p class="text-xs text-gray-600 m-0 font-semibold mt-1">Sistem HR & Operasional</p></div></div>
-                    <div class="text-right"><h2 class="text-lg font-bold text-gray-800 uppercase m-0 leading-tight">Rekap Supervisi Akademik</h2><p class="text-[10px] text-gray-500 font-mono mt-1">Ref: AW15/SUP/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
+                    <div class="flex items-center gap-4"><img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-16 h-16 object-contain"><div><h1 class="text-xl font-black tracking-widest uppercase m-0 leading-tight" style="color: #001b94 !important;">AL-WILDAN 15</h1><p class="text-xs m-0 font-semibold mt-1" style="color: #333 !important;">Sistem HR & Operasional</p></div></div>
+                    <div class="text-right"><h2 class="text-lg font-bold uppercase m-0 leading-tight" style="color: #000 !important;">Rekap Supervisi Akademik</h2><p class="text-[10px] font-mono mt-1" style="color: #666 !important;">Ref: AW15/SUP/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
                 </div>
                 <div class="mb-4 bg-blue-50 p-4 rounded border border-blue-100 flex justify-between items-center">
-                    <div><p class="text-sm font-bold text-[#001b94] mb-1">Daftar Hasil Observasi Mengajar (Latest)</p><p class="text-[10px] text-gray-600">Terverifikasi Database Sistem</p></div>
-                    <div class="text-right"><p class="text-[10px] text-gray-600 mb-1">Dicetak Pada</p><p class="text-sm font-bold">${printDate}</p></div>
+                    <div><p class="text-sm font-bold mb-1" style="color: #001b94 !important;">Daftar Hasil Observasi Mengajar (Latest)</p><p class="text-[10px]" style="color: #333 !important;">Terverifikasi Database Sistem</p></div>
+                    <div class="text-right"><p class="text-[10px] mb-1" style="color: #333 !important;">Dicetak Pada</p><p class="text-sm font-bold" style="color: #000 !important;">${printDate}</p></div>
                 </div>
                 <table class="w-full border-collapse text-xs mb-8">
-                    <thead><tr class="bg-[#001b94] text-white"><th class="p-2 text-center border border-[#001b94]">Tanggal</th><th class="p-2 text-left border border-[#001b94]">Nama Guru</th><th class="p-2 text-left border border-[#001b94]">Materi / Topik</th><th class="p-2 text-center border border-[#001b94]">Skor</th><th class="p-2 text-center border border-[#001b94]">%</th><th class="p-2 text-center border border-[#001b94]">Predikat</th></tr></thead>
-                    <tbody class="text-gray-800">${tbodyData.replace(/<td class="p-3 text-xs text-muted">.*?<\/td>/g, '') /* Remove Supervisor col to fit A4 */}</tbody>
+                    <thead><tr class="bg-[#001b94] text-white"><th class="p-2 text-center border border-gray-400" style="color: white !important;">Tanggal</th><th class="p-2 text-left border border-gray-400" style="color: white !important;">Nama Guru</th><th class="p-2 text-center border border-gray-400" style="color: white !important;">Materi / Topik</th><th class="p-2 text-center border border-gray-400" style="color: white !important;">Skor</th><th class="p-2 text-center border border-gray-400" style="color: white !important;">%</th><th class="p-2 text-center border border-gray-400" style="color: white !important;">Predikat</th><th class="p-2 text-left border border-gray-400" style="color: white !important;">Supervisor</th></tr></thead>
+                    <tbody style="color: #000 !important;">${printReadyTbody}</tbody>
                 </table>
             </div>`;
         }
