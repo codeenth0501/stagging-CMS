@@ -82,6 +82,8 @@
         .light .neon-glow-cyan { text-shadow: none !important; color: #0284c7 !important; font-weight: 700; }
         .neon-glow-green { text-shadow: 0 0 10px rgba(0, 250, 154, 0.6); color: #00fa9a; }
         .light .neon-glow-green { text-shadow: none !important; color: #16a34a !important; font-weight: 700; }
+        .neon-glow-pink { text-shadow: 0 0 10px rgba(255, 0, 127, 0.6); color: #ff007f; }
+        .light .neon-glow-pink { text-shadow: none !important; color: #be123c !important; font-weight: 700; }
 
         .btn-cyber { background: linear-gradient(135deg, #0077b6, #00e5ff); border: none; border-radius: 999px; color: #050a15; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .light .btn-cyber { background: linear-gradient(135deg, #0284c7, #38bdf8); color: white; box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.39); text-shadow: none; }
@@ -288,30 +290,37 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6" id="dashboard-cards">
+                    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-6" id="dashboard-cards">
                         <div class="cyber-panel p-4 col-span-full flex items-center justify-center h-24 text-neoncyan dark:text-neoncyan text-blue-600"><i class="fas fa-circle-notch fa-spin text-2xl mr-3"></i> <span class="tracking-widest text-sm font-bold">SYNCING DATA CORE...</span></div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <div class="cyber-panel p-5 flex flex-col items-center justify-center">
                             <h3 class="text-[10px] font-bold text-muted mb-2 uppercase tracking-[0.2em] w-full text-center">Kehadiran Harian</h3>
-                            <div class="relative w-40 h-40">
+                            <div class="relative w-36 h-36">
                                 <canvas id="chartKehadiran"></canvas>
-                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-3xl font-mono font-bold text-lighttext dark:text-white neon-glow-cyan mt-[-10px]" id="pct-hadir">0%</span></div>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-2xl font-mono font-bold text-lighttext dark:text-white neon-glow-cyan mt-[-10px]" id="pct-hadir">0%</span></div>
                             </div>
                         </div>
                         <div class="cyber-panel p-5 flex flex-col items-center justify-center">
                             <h3 class="text-[10px] font-bold text-muted mb-2 uppercase tracking-[0.2em] w-full text-center">Kedisiplinan Kelas</h3>
-                            <div class="relative w-40 h-40">
+                            <div class="relative w-36 h-36">
                                 <canvas id="chartKelas"></canvas>
-                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-3xl font-mono font-bold text-lighttext dark:text-white neon-glow-cyan mt-[-10px]" id="pct-kelas">0%</span></div>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-2xl font-mono font-bold text-lighttext dark:text-white neon-glow-cyan mt-[-10px]" id="pct-kelas">0%</span></div>
                             </div>
                         </div>
                         <div class="cyber-panel p-5 flex flex-col items-center justify-center">
                             <h3 class="text-[10px] font-bold text-muted mb-2 uppercase tracking-[0.2em] w-full text-center">Rasio Infal</h3>
-                            <div class="relative w-40 h-40">
+                            <div class="relative w-36 h-36">
                                 <canvas id="chartInfal"></canvas>
-                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-3xl font-mono font-bold text-lighttext dark:text-white neon-glow-cyan mt-[-10px]" id="pct-infal">0%</span></div>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-2xl font-mono font-bold text-lighttext dark:text-white neon-glow-cyan mt-[-10px]" id="pct-infal">0%</span></div>
+                            </div>
+                        </div>
+                        <div class="cyber-panel p-5 flex flex-col items-center justify-center">
+                            <h3 class="text-[10px] font-bold text-muted mb-2 uppercase tracking-[0.2em] w-full text-center">Anomali (No Scan)</h3>
+                            <div class="relative w-36 h-36">
+                                <canvas id="chartNoScan"></canvas>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="text-2xl font-mono font-bold text-lighttext dark:text-white neon-glow-pink mt-[-10px]" id="pct-noscan">0%</span></div>
                             </div>
                         </div>
                     </div>
@@ -390,7 +399,7 @@
                                 <select id="cico-filter-kelas" class="input-cyber h-9 text-xs w-32 border-cyan-500/30 custom-scrollbar"><option value="ALL">All Classes</option></select>
                                 <select id="cico-filter-jp" class="input-cyber h-9 text-xs w-24 border-cyan-500/30"><option value="ALL">All JP</option><option value="JP 1">JP 1</option><option value="JP 2">JP 2</option><option value="JP 3">JP 3</option><option value="JP 4">JP 4</option><option value="JP 5">JP 5</option><option value="JP 6">JP 6</option></select>
                                 <input type="date" id="cico-date-start" class="input-cyber h-9 text-xs w-32">
-                                <span class="text-neoncyan/50 text-xs hidden md:inline"><i class="fas fa-minus"></i></span>
+                                <span class="text-neoncyan/50 text-xs hidden md:inline" id="cico-dash-divider"><i class="fas fa-minus"></i></span>
                                 <input type="date" id="cico-date-end" class="input-cyber h-9 text-xs w-32 hidden md:inline">
                                 
                                 <div class="flex custom-bg-alt p-1 rounded-full border custom-border ml-1">
@@ -411,37 +420,41 @@
                             </div>
                         </div>
 
-                        <div id="sub-cico-missing" class="flex-1 overflow-hidden m-2 rounded-xl border custom-border bg-red-50/50 dark:bg-neonpink/5 flex flex-col transition-colors hidden">
-                            <div class="p-3 border-b custom-border bg-white dark:bg-darkbg flex justify-between items-center">
-                                <p class="text-xs font-bold text-red-500 dark:text-neonpink uppercase tracking-widest"><i class="fas fa-exclamation-triangle mr-2"></i> Unscanned Teacher Report</p>
-                                <p class="text-[10px] text-muted italic">Pilih filter JP & 1 Tanggal untuk scan real-time</p>
-                            </div>
-                            <div class="overflow-y-auto flex-1 custom-scrollbar">
-                                <table class="w-full text-left text-sm border-collapse">
-                                    <thead class="bg-gray-100 dark:bg-[#0b1426] text-red-600 dark:text-neonpink text-xs tracking-widest uppercase sticky top-0 z-10 shadow-sm transition-colors">
-                                        <tr><th class="p-4 border-b custom-border w-16">Status</th><th class="p-4 border-b custom-border">Personnel</th><th class="p-4 border-b custom-border text-center">Sector / Class</th><th class="p-4 border-b custom-border text-center">Data Source</th></tr>
-                                    </thead>
-                                    <tbody id="table-cico-missing-body" class="divide-y custom-border">
-                                        <tr><td colspan="4" class="text-center py-8 text-muted italic">Silakan pilih JP dan klik tombol cari (Search)</td></tr>
-                                    </tbody>
-                                </table>
+                        <div id="sub-cico-missing" class="flex-1 overflow-hidden m-2 flex flex-col transition-colors hidden space-y-4">
+                            <!-- Section Atas: Cek Per JP -->
+                            <div class="rounded-xl border custom-border bg-red-50/50 dark:bg-neonpink/5 flex flex-col flex-1 overflow-hidden">
+                                <div class="p-3 border-b custom-border bg-white dark:bg-darkbg flex justify-between items-center">
+                                    <p class="text-xs font-bold text-red-500 dark:text-neonpink uppercase tracking-widest"><i class="fas fa-exclamation-triangle mr-2"></i> Unscanned Teacher Report</p>
+                                    <p class="text-[10px] text-muted italic">Pilih filter JP & 1 Tanggal untuk scan real-time</p>
+                                </div>
+                                <div class="overflow-y-auto flex-1 custom-scrollbar">
+                                    <table class="w-full text-left text-sm border-collapse">
+                                        <thead class="bg-gray-100 dark:bg-[#0b1426] text-red-600 dark:text-neonpink text-xs tracking-widest uppercase sticky top-0 z-10 shadow-sm transition-colors">
+                                            <tr><th class="p-4 border-b custom-border w-16">Status</th><th class="p-4 border-b custom-border">Personnel</th><th class="p-4 border-b custom-border text-center">Sector / Class</th><th class="p-4 border-b custom-border text-center">Data Source</th></tr>
+                                        </thead>
+                                        <tbody id="table-cico-missing-body" class="divide-y custom-border">
+                                            <tr><td colspan="4" class="text-center py-8 text-muted italic">Silakan pilih JP spesifik dan klik tombol cari (Search)</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             
-                            <!-- BAGIAN BARU: REKAP DOSA GURU LUPA SCAN -->
-                            <div class="border-t-[3px] border-red-500 dark:border-neonpink mt-4" id="missing-recap-section" style="display:none;">
-                                <div class="p-3 border-b custom-border bg-gray-50 dark:bg-darkbg flex justify-between items-center">
+                            <!-- Section Bawah: Global Recap -->
+                            <div class="rounded-xl border custom-border bg-orange-50/50 dark:bg-neonyellow/5 flex flex-col h-1/2 overflow-hidden relative">
+                                <div class="p-3 border-b custom-border bg-white dark:bg-darkbg flex justify-between items-center">
                                     <div>
-                                        <p class="text-[10px] font-bold text-lighttext dark:text-white uppercase tracking-widest"><i class="fas fa-users mr-1"></i> Frequent Missing Scanner</p>
-                                        <p class="text-[9px] text-muted italic" id="missing-recap-desc">Rekap guru yang mangkir dari scan</p>
+                                        <p class="text-[10px] font-bold text-orange-600 dark:text-neonyellow uppercase tracking-widest"><i class="fas fa-users mr-1"></i> Frequent Missing Scanner</p>
+                                        <p class="text-[9px] text-muted italic">Menganalisis anomali jadwal (In/Out) per hari</p>
                                     </div>
-                                    <button onclick="printPDF('rekapMissing')" class="btn-outline-cyber px-4 py-1 text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fas fa-file-pdf"></i> PDF</button>
+                                    <button onclick="printPDF('rekapMissing')" class="btn-outline-cyber px-4 py-1.5 text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fas fa-file-pdf"></i> Generate PDF</button>
                                 </div>
-                                <div class="overflow-y-auto h-48 custom-scrollbar">
+                                <div class="overflow-y-auto flex-1 custom-scrollbar">
                                     <table class="w-full text-left text-xs border-collapse">
                                         <thead class="bg-gray-200 dark:bg-[#0b1426] text-muted text-[9px] tracking-widest uppercase sticky top-0 shadow-sm">
-                                            <tr><th class="p-2 border-b custom-border">Nama Guru</th><th class="p-2 border-b custom-border text-center">Total Pelanggaran</th><th class="p-2 border-b custom-border text-center">Aksi</th></tr>
+                                            <tr><th class="p-2 border-b custom-border w-1/3">Nama Guru</th><th class="p-2 border-b custom-border text-center text-red-500 dark:text-neonpink">Miss IN</th><th class="p-2 border-b custom-border text-center text-orange-500 dark:text-neonyellow">Miss OUT</th><th class="p-2 border-b custom-border text-center">Aksi / Detail</th></tr>
                                         </thead>
                                         <tbody id="table-cico-recap-missing-body" class="divide-y custom-border text-lighttext dark:text-gray-300">
+                                            <tr><td colspan="4" class="text-center py-4 italic text-muted">Awaiting API Sync...</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -472,7 +485,6 @@
                         
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
                             <div class="cyber-panel p-5 flex flex-col h-[320px]">
-                                <!-- PDF BUTTON DIHAPUS SESUAI PERMINTAAN -->
                                 <div class="flex justify-between items-center border-b custom-border pb-2 mb-4">
                                     <h3 class="font-bold text-neongreen dark:text-neongreen text-green-600 uppercase text-[10px] tracking-[0.2em]"><i class="fas fa-satellite mr-2"></i> Standby Radar</h3>
                                 </div>
@@ -620,8 +632,8 @@
                              </div>
 
                              <div class="mt-6 border custom-border p-4 rounded-xl custom-bg-alt">
-                                 <label class="block text-[10px] text-neoncyan dark:text-neoncyan text-blue-600 uppercase tracking-widest mb-2 font-bold"><i class="fas fa-pen-alt mr-1"></i> Catatan & Feedback Supervisi</label>
-                                 <textarea id="obs-notes" class="w-full bg-transparent border-b custom-border text-sm text-lighttext dark:text-white outline-none resize-y min-h-[60px] p-2" placeholder="Tuliskan catatan khusus atau rekomendasi perbaikan untuk guru di sini..."></textarea>
+                                 <label class="block text-[10px] text-neoncyan dark:text-neoncyan text-blue-600 uppercase tracking-widest mb-2 font-bold"><i class="fas fa-pen-alt mr-1"></i> Catatan Khusus & Rekomendasi Supervisi</label>
+                                 <textarea id="obs-notes" class="w-full bg-transparent border-b custom-border text-sm text-lighttext dark:text-white outline-none resize-y min-h-[60px] p-2" placeholder="Komentar yang ditulis di sini akan terekam ke database dan muncul di Rapor Evaluasi HR guru bersangkutan..."></textarea>
                              </div>
                              
                              <div class="mt-6 flex justify-end">
@@ -636,13 +648,13 @@
                                 <h3 class="font-bold text-neoncyan dark:text-neoncyan text-blue-600 uppercase text-[10px] tracking-[0.3em]"><i class="fas fa-list-alt mr-2"></i> Master Supervision Recap</h3>
                                 <div class="flex gap-2">
                                     <button onclick="loadSupervisionRecapTable()" class="text-xs text-neoncyan hover:text-neonblue transition w-8 h-8 rounded-full border custom-border"><i class="fas fa-sync-alt"></i></button>
-                                    <button onclick="printPDF('recapSup')" class="btn-outline-cyber px-4 h-8 text-xs font-bold tracking-widest uppercase flex items-center gap-2"><i class="fas fa-print"></i> Export PDF</button>
+                                    <button onclick="printPDF('recapSup')" class="btn-outline-cyber px-4 h-8 text-xs font-bold tracking-widest uppercase flex items-center gap-2"><i class="fas fa-file-pdf"></i> Export PDF</button>
                                 </div>
                             </div>
                             <div class="overflow-x-auto custom-scrollbar border custom-border rounded-xl max-h-[500px]">
                                 <table class="w-full text-left text-sm text-lighttext dark:text-gray-300 min-w-[800px]">
                                     <thead class="bg-gray-100 dark:bg-darkbg text-muted uppercase tracking-widest text-[10px] sticky top-0 z-10 shadow-sm">
-                                        <tr><th class="p-3 border-b border-r custom-border text-center">Tanggal</th><th class="p-3 border-b border-r custom-border">Nama Guru</th><th class="p-3 border-b border-r custom-border text-center">Materi / Topik</th><th class="p-3 border-b border-r custom-border text-center text-neoncyan">Skor</th><th class="p-3 border-b border-r custom-border text-center text-neoncyan">%</th><th class="p-3 border-b border-r custom-border text-center">Predikat</th><th class="p-3 border-b custom-border">Supervisor</th></tr>
+                                        <tr><th class="p-3 border-b border-r custom-border text-center w-24">Tanggal</th><th class="p-3 border-b border-r custom-border">Nama Guru</th><th class="p-3 border-b border-r custom-border text-center">Materi / Topik</th><th class="p-3 border-b border-r custom-border text-center text-neoncyan w-16">Skor</th><th class="p-3 border-b border-r custom-border text-center text-neoncyan w-16">%</th><th class="p-3 border-b border-r custom-border text-center">Predikat</th><th class="p-3 border-b custom-border">Supervisor</th></tr>
                                     </thead>
                                     <tbody id="recap-supervision-tbody" class="divide-y custom-border">
                                         <tr><td colspan="7" class="text-center py-8 text-muted italic">Click Sync to load master data.</td></tr>
@@ -1164,7 +1176,12 @@
                 
                 let totalInfalStats = (d.chartInfal.normal || 0) + (d.chartInfal.infal || 0);
                 document.getElementById('pct-infal').innerText = (totalInfalStats > 0 ? Math.round(((d.chartInfal.infal || 0)/totalInfalStats)*100) : 0) + '%';
-                myChart3 = renderDonutChart('chartInfal', myChart3, ['Normal', 'Replaced'], [d.chartInfal.normal || 0, d.chartInfal.infal || 0], ['#0077b6', '#ff007f']);
+                myChart3 = renderDonutChart('chartInfal', myChart3, ['Normal', 'Replaced'], [d.chartInfal.normal || 0, d.chartInfal.infal || 0], ['#0077b6', '#ffaa00']);
+
+                // NEW: No Scan Chart Rendering
+                document.getElementById('pct-noscan').innerText = (d.noScanningPct || 0) + '%';
+                if(window.myChartNoScan) window.myChartNoScan.destroy();
+                window.myChartNoScan = renderDonutChart('chartNoScan', window.myChartNoScan, ['No Scan', 'Scanned'], [d.noScanningPct || 0, 100 - (d.noScanningPct || 0)], ['#ff007f', '#1e293b']);
                 
                 document.getElementById('dash-log-recent').innerHTML = d.infalTerakhir && d.infalTerakhir.length > 0 ? d.infalTerakhir.map(i => `<div class="border-b custom-border pb-2 mb-2"><p class="text-[10px] text-muted">${formatDate(i.Tanggal)} | ${i.Sesi_JP}</p><p class="text-xs font-bold text-lighttext dark:text-white">${i.Kelas}</p><p class="text-[10px]"><span class="text-neonpink">${i['Guru Keluar']}</span> <i class="fas fa-arrow-right text-muted text-[8px] mx-1"></i> <span class="text-neongreen">${i['Guru Pengganti']}</span></p></div>`).join('') : '<div class="h-full flex items-center justify-center text-muted italic text-xs">No records found</div>';
                 document.getElementById('dash-top-infal').innerHTML = d.topInfal && d.topInfal.length > 0 ? d.topInfal.map(t => `<div class="flex justify-between items-center p-2 mb-2 rounded custom-bg-alt border custom-border"><span class="text-xs font-bold text-lighttext dark:text-gray-200">${t.nama}</span><span class="text-xs font-mono font-bold bg-neonyellow/20 text-orange-600 dark:text-neonyellow px-2 py-0.5 rounded">${t.count} Sesi</span></div>`).join('') : '<div class="h-full flex items-center justify-center text-muted italic text-xs">No records found</div>';
@@ -1265,72 +1282,55 @@
         async function loadMissingCICO(silent = false) {
             const startD = document.getElementById('cico-date-start').value;
             let filterJp = document.getElementById('cico-filter-jp').value;
-            const tbody = document.getElementById('table-cico-missing-body');
-            const recapSection = document.getElementById('missing-recap-section');
-            const recapTbody = document.getElementById('table-cico-recap-missing-body');
-            
-            if(filterJp === 'ALL') {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-red-500 italic font-bold">Harap pilih 1 JP / Sesi Spesifik pada filter di atas untuk melihat Missing Radar!</td></tr>`; 
-                recapSection.style.display = 'none';
-                return;
-            }
-            
-            if(!silent) showToast('Scanning Missing Teachers...', 'info');
-            tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-muted"><i class="fas fa-spinner fa-spin"></i> Cross-checking Schedules...</td></tr>`;
-            recapSection.style.display = 'block';
-            recapTbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 italic text-muted"><i class="fas fa-circle-notch fa-spin"></i> Merangkum dosa...</td></tr>`;
-            
-            const res = await fetchAPI('getMissingCICO', {tanggal: startD, jp: filterJp});
-            if(res && res.status === 'success' && res.data) {
-                let filteredData = res.data;
-                let filterKelas = document.getElementById('cico-filter-kelas').value;
-                if(filterKelas !== 'ALL') {
-                    filteredData = filteredData.filter(d => d.kelas.toUpperCase() === filterKelas.toUpperCase());
-                }
+            const tbodyJP = document.getElementById('table-cico-missing-body');
+            const tbodyRecap = document.getElementById('table-cico-recap-missing-body');
+            let filterKelas = document.getElementById('cico-filter-kelas').value;
 
-                // Render Tabel Utama (Missing List)
-                if(filteredData.length > 0) {
-                    tbody.innerHTML = filteredData.map(d => {
-                        let stIcon = d.status === 'Jadwal Reguler' ? '<i class="fas fa-calendar-times text-neonpink"></i>' : '<i class="fas fa-exchange-alt text-neonyellow"></i>';
-                        return `<tr class="hover:bg-red-100 dark:hover:bg-neonpink/10 transition-colors">
-                            <td class="p-4 text-center text-neonpink text-lg"><i class="fas fa-times-circle"></i></td>
-                            <td class="p-4 text-xs font-bold text-lighttext dark:text-white">${d.guru}</td>
-                            <td class="p-4 text-xs text-center font-bold text-orange-600 dark:text-neonyellow">${d.kelas}</td>
-                            <td class="p-4 text-xs text-center text-muted italic">${stIcon} ${d.status}</td>
-                        </tr>`;
-                    }).join('');
-                    
-                    // Render Tabel Rekap Dosa Scan
-                    let missingCounts = {};
-                    filteredData.forEach(d => {
-                        if(!missingCounts[d.guru]) missingCounts[d.guru] = { count: 0, details: [] };
-                        missingCounts[d.guru].count++;
-                        missingCounts[d.guru].details.push(`Kelas ${d.kelas} (${d.status})`);
-                    });
-                    
-                    // Simpan data mentah ke memori global untuk PDF
-                    window.currentMissingRecapData = { 
-                        tanggal: startD, jp: filterJp, 
-                        records: Object.keys(missingCounts).map(k => ({ nama: k, count: missingCounts[k].count, details: missingCounts[k].details.join(' | ') })).sort((a,b) => b.count - a.count)
-                    };
-                    
-                    recapTbody.innerHTML = window.currentMissingRecapData.records.map((r, idx) => `
-                        <tr class="hover:bg-red-50 dark:hover:bg-neonpink/5 transition-colors">
-                            <td class="p-2 text-xs font-bold text-lighttext dark:text-white pl-4">${r.nama}</td>
-                            <td class="p-2 text-center text-xs font-mono font-bold text-neonpink"><span class="bg-neonpink/10 px-2 py-1 rounded">${r.count}x Pelanggaran</span></td>
-                            <td class="p-2 text-center"><button onclick="alert('Riwayat Mangkir ${r.nama}:\\n\\n${r.details.split(' | ').join('\\n')}')" class="text-[10px] bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-lighttext dark:text-white px-3 py-1 rounded-full transition"><i class="fas fa-eye"></i> Detail</button></td>
+            // Handle Section Atas (Per JP)
+            if(filterJp === 'ALL') {
+                tbodyJP.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-red-500 italic font-bold">Harap pilih 1 JP / Sesi Spesifik pada filter di atas untuk melihat Live Missing Radar!</td></tr>`; 
+            } else {
+                tbodyJP.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-muted"><i class="fas fa-spinner fa-spin"></i> Cross-checking Schedules...</td></tr>`;
+                const resJP = await fetchAPI('getMissingCICO', {tanggal: startD, jp: filterJp});
+                if(resJP && resJP.status === 'success' && resJP.data) {
+                    let filteredData = resJP.data;
+                    if(filterKelas !== 'ALL') filteredData = filteredData.filter(d => d.kelas.toUpperCase() === filterKelas.toUpperCase());
+                    if(filteredData.length > 0) {
+                        tbodyJP.innerHTML = filteredData.map(d => {
+                            let stIcon = d.status === 'Jadwal Reguler' ? '<i class="fas fa-calendar-times text-neonpink"></i>' : '<i class="fas fa-exchange-alt text-neonyellow"></i>';
+                            return `<tr class="hover:bg-red-100 dark:hover:bg-neonpink/10 transition-colors">
+                                <td class="p-4 text-center text-neonpink text-lg"><i class="fas fa-times-circle"></i></td>
+                                <td class="p-4 text-xs font-bold text-lighttext dark:text-white">${d.guru}</td>
+                                <td class="p-4 text-xs text-center font-bold text-orange-600 dark:text-neonyellow">${d.kelas}</td>
+                                <td class="p-4 text-xs text-center text-muted italic">${stIcon} ${d.status}</td>
+                            </tr>`;
+                        }).join('');
+                    } else { tbodyJP.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-green-500 font-bold"><i class="fas fa-check-circle"></i> CLEAR! Semua guru di JP ini sudah scan.</td></tr>`; }
+                } else { tbodyJP.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-red-500">API Sync Failed.</td></tr>`; }
+            }
+
+            // Handle Section Bawah (Global Recap Harian)
+            if(!silent) showToast('Menganalisis anomali kehadiran...', 'info');
+            tbodyRecap.innerHTML = `<tr><td colspan="4" class="text-center py-4 italic text-muted"><i class="fas fa-circle-notch fa-spin"></i> Merangkum data harian...</td></tr>`;
+            const resGlobal = await fetchAPI('getGlobalMissing', {tanggal: startD});
+            
+            if(resGlobal && resGlobal.status === 'success' && resGlobal.data) {
+                window.currentMissingRecapData = { tanggal: startD, records: resGlobal.data }; // Simpan untuk PDF
+                
+                if(resGlobal.data.length > 0) {
+                    tbodyRecap.innerHTML = resGlobal.data.map(r => `
+                        <tr class="hover:bg-orange-50 dark:hover:bg-neonyellow/5 transition-colors">
+                            <td class="p-3 text-xs font-bold text-lighttext dark:text-white">${r.nama}</td>
+                            <td class="p-3 text-center text-xs font-mono font-bold text-red-500 dark:text-neonpink">${r.missIn}x</td>
+                            <td class="p-3 text-center text-xs font-mono font-bold text-orange-500 dark:text-neonyellow">${r.missOut}x</td>
+                            <td class="p-3 text-center"><button onclick="alert('Riwayat Anomali Scan ${r.nama}:\\n\\n${r.details.join('\\n')}')" class="text-[9px] font-bold tracking-widest uppercase bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-lighttext dark:text-white px-3 py-1.5 rounded-full transition"><i class="fas fa-eye"></i> Log Detail</button></td>
                         </tr>
                     `).join('');
-                    
-                } else { 
-                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-green-500 font-bold"><i class="fas fa-check-circle"></i> CLEAR! Semua guru di JP ini sudah scan.</td></tr>`; 
-                    recapTbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 italic text-muted">Tidak ada pelanggaran untuk direkap.</td></tr>`;
+                } else {
+                    tbodyRecap.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-green-500 font-bold"><i class="fas fa-check-circle"></i> Tidak ada anomali mangkir scan di hari ini.</td></tr>`;
                     window.currentMissingRecapData = null;
                 }
-            } else { 
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-red-500">API Sync Failed.</td></tr>`; 
-                recapTbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 italic text-red-500">Gagal memuat rekap.</td></tr>`;
-            }
+            } else { tbodyRecap.innerHTML = `<tr><td colspan="4" class="text-center py-4 italic text-red-500">Gagal memuat rekap harian.</td></tr>`; }
         }
 
         function clearCicoFilter() { 
@@ -1420,7 +1420,6 @@
                 masukEl.innerHTML = '<option value="">Semua Guru Sibuk</option>';
             }
         }
-        // ----------------------------------
 
         async function saveInfal() {
             const btn = document.getElementById('btn-save-infal');
@@ -1536,19 +1535,12 @@
         }
 
         async function saveSupervisionToAPI() {
-            const payload = { teacher: document.getElementById('obs-teacher').value, grade: document.getElementById('obs-grade').value, subject: document.getElementById('obs-subject').value, materi: document.getElementById('obs-materi').value, supervisor: document.getElementById('obs-supervisor').value, totalSkor: document.getElementById('obs-score-val').innerText, persentase: document.getElementById('obs-pct-val').innerText.replace('%',''), predikat: document.getElementById('obs-predicate').innerText };
+            const payload = { teacher: document.getElementById('obs-teacher').value, grade: document.getElementById('obs-grade').value, subject: document.getElementById('obs-subject').value, materi: document.getElementById('obs-materi').value, supervisor: document.getElementById('obs-supervisor').value, totalSkor: document.getElementById('obs-score-val').innerText, persentase: document.getElementById('obs-pct-val').innerText.replace('%',''), predikat: document.getElementById('obs-predicate').innerText, catatan: document.getElementById('obs-notes').value };
             if(!payload.teacher || !payload.supervisor || !payload.materi || payload.totalSkor == '0') { showToast('Lengkapi data observasi dan lakukan penilaian', 'error'); return; }
             const btn = document.getElementById('btn-save-supervision'); btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SAVING...'; btn.disabled = true;
             const res = await postAPI('saveSupervision', payload);
-            if(res && res.status === 'success') { showToast('Laporan Supervisi Tersimpan', 'success'); loadSupervisionHistory(); loadSupervisionRecapTable(); } else { showToast('Gagal menyimpan supervisi', 'error'); }
+            if(res && res.status === 'success') { showToast('Laporan Supervisi Tersimpan', 'success'); document.getElementById('obs-notes').value = ''; loadSupervisionRecapTable(); } else { showToast('Gagal menyimpan supervisi', 'error'); }
             btn.innerHTML = '<i class="fas fa-save"></i> Save Final Report'; btn.disabled = false;
-        }
-
-        async function loadSupervisionHistory() {            
-            const tbody = document.getElementById('supervision-history-tbody'); tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted italic"><i class="fas fa-spinner fa-spin"></i> Syncing...</td></tr>`;            
-            const res = await fetchAPI('getSupervisionHistory');            
-            if(res && res.status === 'success' && res.data.length > 0) { tbody.innerHTML = res.data.map(h => `<tr><td class="pb-2 pt-2 text-[10px] text-muted">${formatDate(h.tanggal)}</td><td class="pb-2 pt-2 font-bold">${h.guru}</td><td class="pb-2 pt-2 text-center text-neoncyan font-mono">${h.skor}</td><td class="pb-2 pt-2 text-center text-[10px]">${h.predikat}</td></tr>`).join(''); }             
-            else { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted italic">Belum ada riwayat.</td></tr>`; }        
         }
 
         async function loadSupervisionRecapTable() {
@@ -1563,11 +1555,11 @@
 
                     return `
                     <tr class="hover:bg-blue-50 dark:hover:bg-neoncyan/5 transition-colors">
-                        <td class="p-3 border-r custom-border text-xs text-muted font-mono">${formatDate(h.tanggal)}</td>
+                        <td class="p-3 border-r custom-border text-xs text-muted font-mono w-24">${formatDate(h.tanggal)}</td>
                         <td class="p-3 border-r custom-border text-xs font-bold text-lighttext dark:text-white">${h.guru}</td>
                         <td class="p-3 border-r custom-border text-xs italic text-muted text-center">${h.materi || '-'}</td>
-                        <td class="p-3 border-r custom-border text-center font-mono font-bold text-blue-600 dark:text-neoncyan">${h.skor}</td>
-                        <td class="p-3 border-r custom-border text-center font-mono font-bold text-neongreen">${displayPct}</td>
+                        <td class="p-3 border-r custom-border text-center font-mono font-bold text-blue-600 dark:text-neoncyan w-16">${h.skor}</td>
+                        <td class="p-3 border-r custom-border text-center font-mono font-bold text-neongreen w-16">${displayPct}</td>
                         <td class="p-3 border-r custom-border text-center text-[10px] uppercase font-bold">${h.predikat}</td>
                         <td class="p-3 text-xs text-muted">${h.supervisor || '-'}</td>
                     </tr>`
@@ -1679,7 +1671,7 @@
         }
 
         async function loadEventData() {
-            let container = document.getElementById('event-list-container'); container.innerHTML = `<div class="cyber-panel p-5 text-center text-muted italic col-span-full h-32 flex items-center justify-center border-dashed custom-border"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil data...</div>`;
+            let container = document.getElementById('event-list-container'); container.innerHTML = `<div class="cyber-panel p-5 text-center text-muted italic col-span-full h-32 flex items-center justify-center border-dashed custom-border"><i class="fas fa-circle-notch fa-spin mr-2"></i> Mengambil data...</div>`;
             const res = await fetchAPI('getAdminEvents');
             if(res && res.status === 'success' && res.data.length > 0) {
                 container.innerHTML = res.data.map(ev => `<div class="cyber-panel p-5 dark:border-neonyellow/30 border-orange-300 hover:-translate-y-1 transition cursor-pointer" onclick="openActionPlan('${ev.namaEvent}', '${ev.pic}')"><div class="flex justify-between items-center mb-2"><h4 class="font-bold text-lighttext dark:text-white tracking-widest text-xs md:text-sm uppercase truncate pr-2">${ev.namaEvent}</h4><span class="text-[9px] bg-orange-100 dark:bg-neonyellow/20 text-orange-600 dark:text-neonyellow border border-orange-200 dark:border-neonyellow/50 px-2 py-0.5 rounded font-bold whitespace-nowrap">PIC: ${ev.pic}</span></div><div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-1.5 mb-1 mt-4"><div class="bg-gradient-to-r from-orange-400 to-yellow-400 h-1.5 rounded-full shadow-md" style="width: ${ev.progress}%"></div></div><p class="text-right text-[10px] font-mono text-muted mb-2 tracking-widest">${ev.progress}% COMPLETED</p><div class="text-[10px] text-muted font-bold tracking-widest uppercase flex items-center gap-1 mt-2 border-t custom-border pt-2"><i class="fas fa-tasks"></i> ${ev.tasks.length} Action Plans</div></div>`).join('');
@@ -1859,7 +1851,7 @@
                 return;
             }
             
-            const { tanggal, jp, records } = window.currentMissingRecapData;
+            const { tanggal, records } = window.currentMissingRecapData;
             let printDate = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
             let tglIndo = formatDate(tanggal);
             
@@ -1867,8 +1859,9 @@
                 <tr>
                     <td class="p-3 border border-gray-400 text-center" style="color: #000 !important;">${i+1}</td>
                     <td class="p-3 border border-gray-400 font-bold" style="color: #000 !important;">${r.nama}</td>
-                    <td class="p-3 border border-gray-400 text-center font-bold text-red-600" style="color: #b91c1c !important;">${r.count}x</td>
-                    <td class="p-3 border border-gray-400 text-xs italic" style="color: #333 !important;">${r.details}</td>
+                    <td class="p-3 border border-gray-400 text-center font-bold text-red-600" style="color: #b91c1c !important;">${r.missIn}x</td>
+                    <td class="p-3 border border-gray-400 text-center font-bold text-orange-600" style="color: #c2410c !important;">${r.missOut}x</td>
+                    <td class="p-3 border border-gray-400 text-[10px] italic" style="color: #333 !important;">${r.details.join(' | ')}</td>
                 </tr>
             `).join('');
 
@@ -1876,24 +1869,25 @@
             <div class="a4-page-potrait bg-white p-[15mm]">
                 <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">
                     <div class="flex items-center gap-4"><img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-16 h-16 object-contain"><div><h1 class="text-xl font-black tracking-widest uppercase m-0 leading-tight" style="color: #001b94 !important;">AL-WILDAN 15</h1><p class="text-xs m-0 font-semibold mt-1" style="color: #333 !important;">Sistem HR & Operasional</p></div></div>
-                    <div class="text-right"><h2 class="text-lg font-bold uppercase m-0 leading-tight text-red-600" style="color: #b91c1c !important;">LAPORAN PELANGGARAN CICO</h2><p class="text-[10px] font-mono mt-1" style="color: #666 !important;">Ref: AW15/CICO-MISS/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
+                    <div class="text-right"><h2 class="text-lg font-bold uppercase m-0 leading-tight text-red-600" style="color: #b91c1c !important;">LAPORAN ANOMALI SCAN</h2><p class="text-[10px] font-mono mt-1" style="color: #666 !important;">Ref: AW15/CICO-MISS/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
                 </div>
                 <div class="mb-4 bg-red-50 p-4 rounded border border-red-200 flex justify-between items-center">
                     <div>
                         <p class="text-sm font-bold mb-1" style="color: #b91c1c !important;">Daftar Pendidik Tidak Melakukan Scan In/Out</p>
-                        <p class="text-xs" style="color: #333 !important;">Tanggal: <b>${tglIndo}</b> | Sesi: <b>${jp}</b></p>
+                        <p class="text-xs" style="color: #333 !important;">Tanggal CICO: <b>${tglIndo}</b></p>
                     </div>
                     <div class="text-right"><p class="text-[10px] mb-1" style="color: #333 !important;">Dicetak Pada</p><p class="text-sm font-bold" style="color: #000 !important;">${printDate}</p></div>
                 </div>
                 
-                <p class="text-xs mb-2 italic" style="color: #666 !important;">*Data ini digenerate secara otomatis dengan membandingkan Jadwal Reguler, Data Infal, dan Log Mesin CICO secara Real-Time.</p>
+                <p class="text-xs mb-2 italic" style="color: #666 !important;">*Data ini digenerate secara otomatis dengan membandingkan Jadwal Reguler, Data Infal, dan Log Mesin CICO secara Real-Time dalam 1 hari penuh.</p>
                 
                 <table class="w-full border-collapse text-sm mb-8">
                     <thead><tr class="bg-[#b91c1c] text-white">
                         <th class="p-2 text-center border border-gray-400 w-12" style="color: white !important; background-color: #b91c1c !important;">No</th>
                         <th class="p-2 text-left border border-gray-400" style="color: white !important; background-color: #b91c1c !important;">Nama Guru</th>
-                        <th class="p-2 text-center border border-gray-400 w-32" style="color: white !important; background-color: #b91c1c !important;">Total Mangkir</th>
-                        <th class="p-2 text-left border border-gray-400" style="color: white !important; background-color: #b91c1c !important;">Rincian Sektor / Tugas</th>
+                        <th class="p-2 text-center border border-gray-400 w-24" style="color: white !important; background-color: #b91c1c !important;">Miss IN</th>
+                        <th class="p-2 text-center border border-gray-400 w-24" style="color: white !important; background-color: #b91c1c !important;">Miss OUT</th>
+                        <th class="p-2 text-left border border-gray-400" style="color: white !important; background-color: #b91c1c !important;">Rincian Log Pelanggaran</th>
                     </tr></thead>
                     <tbody>${tbodyHtml}</tbody>
                 </table>
