@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management Panel System - Al-Wildan 15 (V4.5 Super Ultimate)</title>
+    <title>Management Panel System - Al-Wildan 15 (V4.6 Ultimate)</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     
@@ -426,6 +426,26 @@
                                     </tbody>
                                 </table>
                             </div>
+                            
+                            <!-- BAGIAN BARU: REKAP DOSA GURU LUPA SCAN -->
+                            <div class="border-t-[3px] border-red-500 dark:border-neonpink mt-4" id="missing-recap-section" style="display:none;">
+                                <div class="p-3 border-b custom-border bg-gray-50 dark:bg-darkbg flex justify-between items-center">
+                                    <div>
+                                        <p class="text-[10px] font-bold text-lighttext dark:text-white uppercase tracking-widest"><i class="fas fa-users mr-1"></i> Frequent Missing Scanner</p>
+                                        <p class="text-[9px] text-muted italic" id="missing-recap-desc">Rekap guru yang mangkir dari scan</p>
+                                    </div>
+                                    <button onclick="printPDF('rekapMissing')" class="btn-outline-cyber px-4 py-1 text-[10px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fas fa-file-pdf"></i> PDF</button>
+                                </div>
+                                <div class="overflow-y-auto h-48 custom-scrollbar">
+                                    <table class="w-full text-left text-xs border-collapse">
+                                        <thead class="bg-gray-200 dark:bg-[#0b1426] text-muted text-[9px] tracking-widest uppercase sticky top-0 shadow-sm">
+                                            <tr><th class="p-2 border-b custom-border">Nama Guru</th><th class="p-2 border-b custom-border text-center">Total Pelanggaran</th><th class="p-2 border-b custom-border text-center">Aksi</th></tr>
+                                        </thead>
+                                        <tbody id="table-cico-recap-missing-body" class="divide-y custom-border text-lighttext dark:text-gray-300">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -452,9 +472,9 @@
                         
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
                             <div class="cyber-panel p-5 flex flex-col h-[320px]">
+                                <!-- PDF BUTTON DIHAPUS SESUAI PERMINTAAN -->
                                 <div class="flex justify-between items-center border-b custom-border pb-2 mb-4">
                                     <h3 class="font-bold text-neongreen dark:text-neongreen text-green-600 uppercase text-[10px] tracking-[0.2em]"><i class="fas fa-satellite mr-2"></i> Standby Radar</h3>
-                                    <button onclick="printPDF('standbyReport')" class="text-[9px] font-bold text-white bg-green-600 dark:bg-neongreen dark:text-darkbg px-2 py-1 rounded hover:opacity-80 transition"><i class="fas fa-print"></i> PDF</button>
                                 </div>
                                 <div class="flex gap-2 mb-4 custom-bg-alt p-1.5 rounded-full border custom-border">
                                     <select id="radar-hari" class="bg-transparent text-lighttext dark:text-gray-300 text-xs px-3 outline-none w-2/5 border-r custom-border font-bold"><option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option></select>
@@ -897,7 +917,7 @@
     <div id="print-section"></div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbw2g1ecQSLlR0xNRGFWIYeNqaXg68evmNZg9lu1yH4TV06u9GiOmNwfMuBQs11kbN3u/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxL7F1hO_b-H2y_fD3l-V2rCg4c-Z3h4zWw9YI9W5hN25a6669N8L1L4o9sF451/exec";
 
         let myChart1, myChart2, myChart3;
         let globalTeacherList = []; 
@@ -1246,12 +1266,19 @@
             const startD = document.getElementById('cico-date-start').value;
             let filterJp = document.getElementById('cico-filter-jp').value;
             const tbody = document.getElementById('table-cico-missing-body');
+            const recapSection = document.getElementById('missing-recap-section');
+            const recapTbody = document.getElementById('table-cico-recap-missing-body');
             
             if(filterJp === 'ALL') {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-red-500 italic font-bold">Harap pilih 1 JP / Sesi Spesifik pada filter di atas untuk melihat Missing Radar!</td></tr>`; return;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-red-500 italic font-bold">Harap pilih 1 JP / Sesi Spesifik pada filter di atas untuk melihat Missing Radar!</td></tr>`; 
+                recapSection.style.display = 'none';
+                return;
             }
+            
             if(!silent) showToast('Scanning Missing Teachers...', 'info');
             tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-muted"><i class="fas fa-spinner fa-spin"></i> Cross-checking Schedules...</td></tr>`;
+            recapSection.style.display = 'block';
+            recapTbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 italic text-muted"><i class="fas fa-circle-notch fa-spin"></i> Merangkum dosa...</td></tr>`;
             
             const res = await fetchAPI('getMissingCICO', {tanggal: startD, jp: filterJp});
             if(res && res.status === 'success' && res.data) {
@@ -1261,6 +1288,7 @@
                     filteredData = filteredData.filter(d => d.kelas.toUpperCase() === filterKelas.toUpperCase());
                 }
 
+                // Render Tabel Utama (Missing List)
                 if(filteredData.length > 0) {
                     tbody.innerHTML = filteredData.map(d => {
                         let stIcon = d.status === 'Jadwal Reguler' ? '<i class="fas fa-calendar-times text-neonpink"></i>' : '<i class="fas fa-exchange-alt text-neonyellow"></i>';
@@ -1271,8 +1299,38 @@
                             <td class="p-4 text-xs text-center text-muted italic">${stIcon} ${d.status}</td>
                         </tr>`;
                     }).join('');
-                } else { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-green-500 font-bold"><i class="fas fa-check-circle"></i> CLEAR! Semua guru di JP ini sudah scan.</td></tr>`; }
-            } else { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-red-500">API Sync Failed.</td></tr>`; }
+                    
+                    // Render Tabel Rekap Dosa Scan
+                    let missingCounts = {};
+                    filteredData.forEach(d => {
+                        if(!missingCounts[d.guru]) missingCounts[d.guru] = { count: 0, details: [] };
+                        missingCounts[d.guru].count++;
+                        missingCounts[d.guru].details.push(`Kelas ${d.kelas} (${d.status})`);
+                    });
+                    
+                    // Simpan data mentah ke memori global untuk PDF
+                    window.currentMissingRecapData = { 
+                        tanggal: startD, jp: filterJp, 
+                        records: Object.keys(missingCounts).map(k => ({ nama: k, count: missingCounts[k].count, details: missingCounts[k].details.join(' | ') })).sort((a,b) => b.count - a.count)
+                    };
+                    
+                    recapTbody.innerHTML = window.currentMissingRecapData.records.map((r, idx) => `
+                        <tr class="hover:bg-red-50 dark:hover:bg-neonpink/5 transition-colors">
+                            <td class="p-2 text-xs font-bold text-lighttext dark:text-white pl-4">${r.nama}</td>
+                            <td class="p-2 text-center text-xs font-mono font-bold text-neonpink"><span class="bg-neonpink/10 px-2 py-1 rounded">${r.count}x Pelanggaran</span></td>
+                            <td class="p-2 text-center"><button onclick="alert('Riwayat Mangkir ${r.nama}:\\n\\n${r.details.split(' | ').join('\\n')}')" class="text-[10px] bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-lighttext dark:text-white px-3 py-1 rounded-full transition"><i class="fas fa-eye"></i> Detail</button></td>
+                        </tr>
+                    `).join('');
+                    
+                } else { 
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-green-500 font-bold"><i class="fas fa-check-circle"></i> CLEAR! Semua guru di JP ini sudah scan.</td></tr>`; 
+                    recapTbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 italic text-muted">Tidak ada pelanggaran untuk direkap.</td></tr>`;
+                    window.currentMissingRecapData = null;
+                }
+            } else { 
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 italic text-red-500">API Sync Failed.</td></tr>`; 
+                recapTbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 italic text-red-500">Gagal memuat rekap.</td></tr>`;
+            }
         }
 
         function clearCicoFilter() { 
@@ -1495,10 +1553,9 @@
 
         async function loadSupervisionRecapTable() {
             const tbody = document.getElementById('recap-supervision-tbody'); tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-muted italic"><i class="fas fa-spinner fa-spin"></i> Fetching Master Data...</td></tr>`;
-            const res = await fetchAPI('getSupervisionHistory'); // Akan di-upgrade di Backend V5 buat load ALL
+            const res = await fetchAPI('getSupervisionHistory'); 
             if(res && res.status === 'success' && res.data.length > 0) { 
                 tbody.innerHTML = res.data.map(h => {
-                    // Paksa Kalkulasi % di Frontend jika nerima desimal dari Backend (Fallback)
                     let displayPct = h.pct;
                     if(typeof displayPct === 'number' && displayPct <= 1) displayPct = Math.round(displayPct * 100) + '%';
                     else if(typeof displayPct === 'string' && displayPct.includes('.')) displayPct = Math.round(parseFloat(displayPct) * 100) + '%';
@@ -1512,7 +1569,7 @@
                         <td class="p-3 border-r custom-border text-center font-mono font-bold text-blue-600 dark:text-neoncyan">${h.skor}</td>
                         <td class="p-3 border-r custom-border text-center font-mono font-bold text-neongreen">${displayPct}</td>
                         <td class="p-3 border-r custom-border text-center text-[10px] uppercase font-bold">${h.predikat}</td>
-                        <td class="p-3 text-xs text-muted">${h.supervisor || 'Admin'}</td>
+                        <td class="p-3 text-xs text-muted">${h.supervisor || '-'}</td>
                     </tr>`
                 }).join(''); 
             } 
@@ -1699,6 +1756,10 @@
                 showToast('Mempersiapkan PDF Recap Supervisi...', 'info');
                 area.innerHTML = buildRecapSupervisionPDF();
             }
+            else if (type === 'rekapMissing') {
+                showToast('Mempersiapkan Laporan Pelanggaran...', 'info');
+                buildRekapMissingPDF(area);
+            }
             else if (type === 'standbyReport') {
                 showToast('Mempersiapkan Laporan Standby...', 'info');
                 await fetchAndBuildStandbyReport(area);
@@ -1714,7 +1775,6 @@
             let reportTitle = `Laporan Guru Standby - Hari ${hari}`;
             if(jp !== 'ALL') reportTitle += ` (${jp})`;
 
-            // Kalau ALL, kita fetch per JP dari 1-6
             let fullHtml = '';
             
             if(jp === 'ALL') {
@@ -1750,7 +1810,6 @@
                     </table>
                 </div>`;
             } else {
-                // Fetch cuma 1 JP
                 const res = await fetchAPI('getStandbyTeachers', { hari: hari, jp: jp });
                 let gurus = res && res.status === 'success' ? res.data.map(g => g['Nama Guru']) : [];
                 
@@ -1775,13 +1834,12 @@
             const tbodyData = document.getElementById('recap-supervision-tbody').innerHTML;
             let printDate = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
             
-            // PENTING: Regex ini menambahkan inline style color: #000 !important ke semua <td> agar tidak hilang pas diprint
             const printReadyTbody = tbodyData.replace(/<td/g, '<td style="color: #000 !important; border: 1px solid #ccc; padding: 8px;"');
 
             return `
             <div class="a4-page bg-white p-[15mm]">
                 <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">
-                    <div class="flex items-center gap-4"><img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-16 h-16 object-contain"><div><h1 class="text-xl font-black tracking-widest uppercase m-0 leading-tight" style="color: #001b94 !important;">AL-WILDAN 15</h1><p class="text-xs m-0 font-semibold mt-1" style="color: #333 !important;">Sistem HR & Operasional</p></div></div>
+                    <div class="flex items-center gap-4"><img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-16 h-16 object-contain"><div><h1 class="text-xl font-black tracking-widest uppercase m-0 leading-tight" style="color: #001b94 !important;">AL-WILDAN 15</h1><p class="text-xs m-0 font-semibold mt-1" style="color: #333 !important;">Sistem HR & Operasional</p></div></div>
                     <div class="text-right"><h2 class="text-lg font-bold uppercase m-0 leading-tight" style="color: #000 !important;">Rekap Supervisi Akademik</h2><p class="text-[10px] font-mono mt-1" style="color: #666 !important;">Ref: AW15/SUP/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
                 </div>
                 <div class="mb-4 bg-blue-50 p-4 rounded border border-blue-100 flex justify-between items-center">
@@ -1794,6 +1852,53 @@
                 </table>
             </div>`;
         }
+        
+        function buildRekapMissingPDF(areaEl) {
+            if(!window.currentMissingRecapData || !window.currentMissingRecapData.records || window.currentMissingRecapData.records.length === 0) {
+                showToast('Tidak ada data pelanggaran untuk dicetak.', 'error');
+                return;
+            }
+            
+            const { tanggal, jp, records } = window.currentMissingRecapData;
+            let printDate = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+            let tglIndo = formatDate(tanggal);
+            
+            let tbodyHtml = records.map((r, i) => `
+                <tr>
+                    <td class="p-3 border border-gray-400 text-center" style="color: #000 !important;">${i+1}</td>
+                    <td class="p-3 border border-gray-400 font-bold" style="color: #000 !important;">${r.nama}</td>
+                    <td class="p-3 border border-gray-400 text-center font-bold text-red-600" style="color: #b91c1c !important;">${r.count}x</td>
+                    <td class="p-3 border border-gray-400 text-xs italic" style="color: #333 !important;">${r.details}</td>
+                </tr>
+            `).join('');
+
+            areaEl.innerHTML = `
+            <div class="a4-page-potrait bg-white p-[15mm]">
+                <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">
+                    <div class="flex items-center gap-4"><img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-16 h-16 object-contain"><div><h1 class="text-xl font-black tracking-widest uppercase m-0 leading-tight" style="color: #001b94 !important;">AL-WILDAN 15</h1><p class="text-xs m-0 font-semibold mt-1" style="color: #333 !important;">Sistem HR & Operasional</p></div></div>
+                    <div class="text-right"><h2 class="text-lg font-bold uppercase m-0 leading-tight text-red-600" style="color: #b91c1c !important;">LAPORAN PELANGGARAN CICO</h2><p class="text-[10px] font-mono mt-1" style="color: #666 !important;">Ref: AW15/CICO-MISS/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
+                </div>
+                <div class="mb-4 bg-red-50 p-4 rounded border border-red-200 flex justify-between items-center">
+                    <div>
+                        <p class="text-sm font-bold mb-1" style="color: #b91c1c !important;">Daftar Pendidik Tidak Melakukan Scan In/Out</p>
+                        <p class="text-xs" style="color: #333 !important;">Tanggal: <b>${tglIndo}</b> | Sesi: <b>${jp}</b></p>
+                    </div>
+                    <div class="text-right"><p class="text-[10px] mb-1" style="color: #333 !important;">Dicetak Pada</p><p class="text-sm font-bold" style="color: #000 !important;">${printDate}</p></div>
+                </div>
+                
+                <p class="text-xs mb-2 italic" style="color: #666 !important;">*Data ini digenerate secara otomatis dengan membandingkan Jadwal Reguler, Data Infal, dan Log Mesin CICO secara Real-Time.</p>
+                
+                <table class="w-full border-collapse text-sm mb-8">
+                    <thead><tr class="bg-[#b91c1c] text-white">
+                        <th class="p-2 text-center border border-gray-400 w-12" style="color: white !important; background-color: #b91c1c !important;">No</th>
+                        <th class="p-2 text-left border border-gray-400" style="color: white !important; background-color: #b91c1c !important;">Nama Guru</th>
+                        <th class="p-2 text-center border border-gray-400 w-32" style="color: white !important; background-color: #b91c1c !important;">Total Mangkir</th>
+                        <th class="p-2 text-left border border-gray-400" style="color: white !important; background-color: #b91c1c !important;">Rincian Sektor / Tugas</th>
+                    </tr></thead>
+                    <tbody>${tbodyHtml}</tbody>
+                </table>
+            </div>`;
+        }
 
         function buildPerformanceReview() {            
             const teacherName = document.getElementById('review-name-display').innerText, printDate = document.getElementById('review-date-stamp').innerText.replace('Date: ', '');            
@@ -1801,7 +1906,7 @@
             let page1 = `            
             <div class="a4-page-potrait bg-white p-[15mm]">
                 <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">
-                    <div class="flex items-center gap-4"><img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-20 h-20 object-contain"><div><h1 class="text-2xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1><p class="text-sm text-gray-600 m-0 font-semibold mt-1">HR & Performance Report</p></div></div>
+                    <div class="flex items-center gap-4"><img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-20 h-20 object-contain"><div><h1 class="text-2xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1><p class="text-sm text-gray-600 m-0 font-semibold mt-1">HR & Performance Report</p></div></div>
                     <div class="text-right"><h2 class="text-xl font-bold text-gray-800 uppercase m-0 leading-tight">Semester Review</h2><p class="text-sm text-gray-500 font-mono mt-1">Ref: AW15/HR-PERF/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
                 </div>
                 <div class="mb-4 bg-blue-50 p-4 rounded border border-blue-100 flex justify-between items-center">
@@ -1829,7 +1934,7 @@
             let page2 = `            
             <div class="a4-page-potrait bg-white p-[15mm]">
                 <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">
-                    <div class="flex items-center gap-4"><img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-20 h-20 object-contain"><div><h1 class="text-2xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1><p class="text-sm text-gray-600 m-0 font-semibold mt-1">HR & Performance Report</p></div></div>
+                    <div class="flex items-center gap-4"><img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-20 h-20 object-contain"><div><h1 class="text-2xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1><p class="text-sm text-gray-600 m-0 font-semibold mt-1">HR & Performance Report</p></div></div>
                     <div class="text-right"><h2 class="text-xl font-bold text-gray-800 uppercase m-0 leading-tight">Semester Review</h2><p class="text-sm text-gray-500 font-mono mt-1">Ref: AW15/HR-PERF/${Math.floor(Math.random()*1000).toString().padStart(3, '0')}</p></div>
                 </div>
                 <div class="mb-4 bg-blue-50 p-4 rounded border border-blue-100 flex justify-between items-center">
@@ -1885,7 +1990,7 @@
                 <div class="a4-page-potrait bg-white p-[15mm] font-sans">                    
                     <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">                        
                         <div class="flex items-center gap-4">                            
-                            <img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-16 h-16 object-contain">                            
+                            <img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-16 h-16 object-contain">                            
                             <div>                                
                                 <h1 class="text-xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1>                                
                                 <p class="text-xs text-gray-600 m-0 font-semibold mt-1">Sistem HR & Operasional</p>                            
@@ -1979,7 +2084,7 @@
             <div class="a4-page bg-white p-[15mm] font-sans">                                
                 <div class="flex items-center justify-between border-b-[4px] border-[#001b94] pb-4 mb-6">                                        
                     <div class="flex items-center gap-4">                                                
-                        <img src="https://i.ibb.co.com/bgtjHDQP/favicon.png" alt="Logo" class="w-16 h-16 object-contain">                                                
+                        <img src="https://thumbs2.imgbox.com/8c/47/ccEpfNGX_t.png" alt="Logo" class="w-16 h-16 object-contain">                                                
                         <div>                                                        
                             <h1 class="text-xl font-black text-[#001b94] tracking-widest uppercase m-0 leading-tight">AL-WILDAN 15</h1>                                                        
                             <p class="text-xs text-gray-600 m-0 font-semibold mt-1">Sistem Operasional Kepengawasan</p>                                                
